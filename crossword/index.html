@@ -1,1 +1,144 @@
-Test!
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Submit your crossword · Jacob & Emma</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;1,500&display=swap" rel="stylesheet">
+<style>
+  :root { --ink:#2f2a26; --muted:#8a8078; --line:#e6ded4; --bg:#faf7f2; --accent:#7d8b6a; --err:#b5523b; }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--bg); color:var(--ink); font:16px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+  main { max-width:520px; margin:0 auto; padding:48px 20px calc(48px + env(safe-area-inset-bottom)); text-align:center; }
+  h1 { font:500 2.4rem/1.1 "Cormorant Garamond", Georgia, serif; margin:0 0 8px; }
+  h1 em { color:var(--accent); }
+  p.sub { color:var(--muted); margin:0 0 32px; }
+  .btn { display:block; width:100%; padding:16px; border:0; border-radius:12px; background:var(--ink); color:#fff; font:600 1.05rem/1 inherit; font-family:inherit; cursor:pointer; }
+  .btn.ghost { background:none; color:var(--ink); border:1px solid var(--line); margin-top:10px; }
+  .btn:disabled { opacity:.45; cursor:default; }
+  input[type=file] { display:none; }
+  #preview { display:block; width:100%; max-height:50vh; object-fit:contain; border-radius:10px; background:var(--line); margin:0 0 16px; }
+  input[type=text] { width:100%; padding:14px; font:inherit; border:1px solid var(--line); border-radius:12px; background:#fff; margin-bottom:12px; }
+  input[type=text]:focus { outline:2px solid var(--accent); border-color:transparent; }
+  .msg { margin:16px 0 0; }
+  .msg.err { color:var(--err); }
+  .done h2 { font:500 2rem/1.2 "Cormorant Garamond", Georgia, serif; margin:0 0 8px; }
+  [hidden] { display:none !important; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Submit your <em>crossword</em></h1>
+  <p class="sub">Snap a photo of your table's puzzle. The highest score by 4:45 gets to go first!</p>
+
+  <input type="file" id="file" accept="image/*">
+
+  <form id="form">
+    <img id="preview" alt="" hidden>
+    <button class="btn" id="chooseBtn" type="button">Take a photo</button>
+    <div id="details" hidden>
+      <input type="text" id="table" inputmode="numeric" placeholder="Table number" aria-label="Table number" maxlength="20" required>
+      <input type="text" id="name" autocomplete="name" placeholder="Your name" aria-label="Your name" maxlength="100">
+      <button class="btn" id="submitBtn" type="submit">Submit</button>
+    </div>
+    <p class="msg" id="msg"></p>
+  </form>
+
+  <section class="done" id="done" hidden>
+    <h2>Submitted ♡</h2>
+    <p class="sub" id="doneText"></p>
+    <button class="btn ghost" id="againBtn" type="button">Submit a different photo</button>
+  </section>
+</main>
+
+<script>
+const params = new URLSearchParams(location.search);
+const WORKER_URL = params.get("api") || "https://wedding-photos.jacobwestra0.workers.dev";
+const MAX_EDGE = 2560, QUALITY = 0.85;
+
+const $ = (id) => document.getElementById(id);
+const tableInput = $("table"), nameInput = $("name"), msg = $("msg");
+let file = null;
+
+// Table tents link here with ?t=<table>; fill it in and hide the field.
+if (params.get("t")) { tableInput.value = params.get("t").slice(0, 20); tableInput.hidden = true; }
+try { nameInput.value = localStorage.getItem("guestName") || ""; } catch {}
+
+$("chooseBtn").onclick = () => $("file").click();
+$("file").onchange = () => {
+  file = $("file").files[0] || file;
+  $("file").value = "";
+  if (!file) return;
+  $("preview").src = URL.createObjectURL(file);
+  $("preview").hidden = false;
+  $("details").hidden = false;
+  $("chooseBtn").textContent = "Retake photo";
+  $("chooseBtn").className = "btn ghost";
+  $("details").after($("chooseBtn")); // Submit becomes the primary action; retake goes below it
+  msg.textContent = "";
+  if (!tableInput.value) tableInput.focus();
+};
+
+$("form").onsubmit = async (e) => {
+  e.preventDefault();
+  const table = tableInput.value.trim(), name = nameInput.value.trim();
+  if (!file) return;
+  if (!table) { tableInput.hidden = false; return tableInput.focus(); }
+  if (name) try { localStorage.setItem("guestName", name); } catch {}
+  $("submitBtn").disabled = $("chooseBtn").disabled = true;
+  $("submitBtn").textContent = "Submitting…";
+  msg.textContent = ""; msg.className = "msg";
+  try {
+    const { blob, width, height } = await compress(file);
+    const res = await fetch(`${WORKER_URL}/crossword`, {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ name, table, filename: file.name, mimeType: "image/jpeg", width, height, data: await toBase64(blob) }),
+    });
+    const out = await res.json().catch(() => ({}));
+    if (!res.ok || !out.ok) throw new Error(out.error || `HTTP ${res.status}`);
+    $("form").hidden = true;
+    $("done").hidden = false;
+    $("doneText").textContent = `Good luck, Table ${table}!`;
+  } catch (err) {
+    console.error(err);
+    msg.className = "msg err";
+    msg.textContent = "That didn't go through. Check your connection and try again.";
+  } finally {
+    $("submitBtn").disabled = $("chooseBtn").disabled = false;
+    $("submitBtn").textContent = "Submit";
+  }
+};
+
+$("againBtn").onclick = () => { $("done").hidden = true; $("form").hidden = false; $("file").click(); };
+
+// Downscale to MAX_EDGE and re-encode as JPEG.
+async function compress(file) {
+  const img = await new Promise((resolve, reject) => {
+    const i = new Image();
+    i.onload = () => resolve(i); // <img> applies EXIF orientation
+    i.onerror = () => reject(new Error(`can't read ${file.name}`));
+    i.src = URL.createObjectURL(file);
+  });
+  const scale = Math.min(1, MAX_EDGE / Math.max(img.naturalWidth, img.naturalHeight));
+  const width = Math.round(img.naturalWidth * scale), height = Math.round(img.naturalHeight * scale);
+  const canvas = document.createElement("canvas");
+  canvas.width = width; canvas.height = height;
+  canvas.getContext("2d").drawImage(img, 0, 0, width, height);
+  const blob = await new Promise((r) => canvas.toBlob(r, "image/jpeg", QUALITY));
+  if (!blob) throw new Error("could not encode image");
+  return { blob, width, height };
+}
+
+function toBase64(blob) {
+  return new Promise((resolve, reject) => {
+    const r = new FileReader();
+    r.onload = () => resolve(r.result.slice(r.result.indexOf(",") + 1));
+    r.onerror = reject;
+    r.readAsDataURL(blob);
+  });
+}
+</script>
+</body>
+</html>
