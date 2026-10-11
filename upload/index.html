@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Share your photos · Jacob & Emma</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;1,500&display=swap" rel="stylesheet">
+<style>
+  :root { --ink:#2f2a26; --muted:#8a8078; --line:#e6ded4; --bg:#faf7f2; --accent:#7d8b6a; --err:#b5523b; }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--bg); color:var(--ink); font:16px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+  main { max-width:520px; margin:0 auto; padding:48px 20px calc(48px + env(safe-area-inset-bottom)); text-align:center; }
+  h1 { font:500 2.4rem/1.1 "Cormorant Garamond", Georgia, serif; margin:0 0 8px; }
+  h1 em { color:var(--accent); }
+  p.sub { color:var(--muted); margin:0 0 36px; }
+  .btn { display:block; width:100%; padding:16px; border:0; border-radius:12px; background:var(--ink); color:#fff; font:600 1.05rem/1 inherit; font-family:inherit; cursor:pointer; }
+  .btn.ghost { background:none; color:var(--ink); border:1px solid var(--line); margin-top:10px; }
+  .btn:disabled { opacity:.45; cursor:default; }
+  input[type=file] { display:none; }
+  .grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(88px, 1fr)); gap:6px; margin:0 0 24px; }
+  .tile { position:relative; aspect-ratio:1; border-radius:8px; overflow:hidden; background:var(--line); }
+  .tile img { width:100%; height:100%; object-fit:cover; display:block; }
+  .tile .st { position:absolute; inset:0; display:grid; place-items:center; font-size:1.4rem; color:#fff; background:rgba(0,0,0,.35); }
+  .tile.done .st { background:rgba(125,139,106,.55); }
+  .tile.fail .st { background:rgba(181,82,59,.7); font-size:.8rem; padding:4px; }
+  .tile.queued .st { background:rgba(255,255,255,.35); }
+  label { display:block; text-align:left; font-weight:600; margin-bottom:6px; }
+  input[type=text] { width:100%; padding:14px; font:inherit; border:1px solid var(--line); border-radius:12px; background:#fff; margin-bottom:16px; }
+  input[type=text]:focus { outline:2px solid var(--accent); border-color:transparent; }
+  .count { color:var(--muted); margin:0 0 12px; }
+  .bar { height:6px; background:var(--line); border-radius:3px; overflow:hidden; margin:0 0 16px; }
+  .bar > div { height:100%; width:0; background:var(--accent); transition:width .3s; }
+  .msg { margin:16px 0 0; }
+  .msg.err { color:var(--err); }
+  [hidden] { display:none !important; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Share your <em>photos</em></h1>
+  <p class="sub">Thank you for celebrating with us! Add any photos you took — we'd love to see the day through your eyes.</p>
+
+  <input type="file" id="files" accept="image/*" multiple>
+
+  <section id="pick">
+    <button class="btn" id="chooseBtn">Choose photos</button>
+  </section>
+
+  <section id="details" hidden>
+    <p class="count" id="count"></p>
+    <div class="grid" id="grid"></div>
+    <form id="form">
+      <label for="name">Your name</label>
+      <input type="text" id="name" autocomplete="name" placeholder="e.g. Aunt Linda" required maxlength="100">
+      <div class="bar" id="bar" hidden><div></div></div>
+      <button class="btn" id="uploadBtn" type="submit">Upload</button>
+      <button class="btn ghost" id="addBtn" type="button">Add more photos</button>
+    </form>
+    <p class="msg" id="msg"></p>
+  </section>
+</main>
+
+<script>
+const WORKER_URL = new URLSearchParams(location.search).get("api") || "https://wedding-photos.jacobwestra0.workers.dev";
+const MAX_EDGE = 2560;     // px on the long side
+const QUALITY = 0.85;      // JPEG quality
+const CONCURRENCY = 3;
+
+const $ = (id) => document.getElementById(id);
+const fileInput = $("files"), grid = $("grid"), nameInput = $("name"), msg = $("msg");
+let items = []; // {file, tile, status: 'queued'|'uploading'|'done'|'fail'}
+let busy = false;
+
+try { nameInput.value = localStorage.getItem("guestName") || ""; } catch {}
+
+$("chooseBtn").onclick = $("addBtn").onclick = () => fileInput.click();
+
+fileInput.onchange = () => {
+  for (const file of fileInput.files) {
+    if (!file.type.startsWith("image/") && !/\.(heic|heif)$/i.test(file.name)) continue;
+    const tile = document.createElement("div");
+    tile.className = "tile queued";
+    const img = document.createElement("img");
+    img.src = URL.createObjectURL(file);
+    img.onerror = () => img.remove(); // e.g. HEIC preview on non-Safari
+    tile.append(img, Object.assign(document.createElement("div"), { className: "st" }));
+    grid.append(tile);
+    items.push({ file, tile, status: "queued" });
+  }
+  fileInput.value = "";
+  render();
+  if (items.length) { $("pick").hidden = true; $("details").hidden = false; if (!nameInput.value) nameInput.focus(); }
+};
+
+function render() {
+  const pending = items.filter((i) => i.status !== "done").length;
+  const done = items.length - pending;
+  $("count").textContent = done
+    ? `${done} of ${items.length} uploaded`
+    : `${items.length} photo${items.length === 1 ? "" : "s"} selected`;
+  $("uploadBtn").disabled = busy || !pending;
+  $("addBtn").disabled = busy;
+  $("uploadBtn").textContent = busy ? "Uploading…" : items.some((i) => i.status === "fail") ? "Retry failed" : "Upload";
+  $("bar").firstElementChild.style.width = `${items.length ? (done / items.length) * 100 : 0}%`;
+}
+
+function setStatus(item, status, label = "") {
+  item.status = status;
+  item.tile.className = `tile ${status}`;
+  item.tile.querySelector(".st").textContent = { uploading: "…", done: "✓", fail: label || "!" , queued: "" }[status];
+  render();
+}
+
+$("form").onsubmit = async (e) => {
+  e.preventDefault();
+  const name = nameInput.value.trim();
+  if (!name) return nameInput.focus();
+  try { localStorage.setItem("guestName", name); } catch {}
+  busy = true; msg.textContent = ""; msg.className = "msg"; $("bar").hidden = false;
+  const queue = items.filter((i) => i.status !== "done");
+  queue.forEach((i) => setStatus(i, "queued"));
+  await Promise.all(Array.from({ length: CONCURRENCY }, async () => {
+    for (let item; (item = queue.shift()); ) {
+      setStatus(item, "uploading");
+      try { await uploadOne(item.file, name); setStatus(item, "done"); }
+      catch (err) { console.error(err); setStatus(item, "fail", "Failed"); }
+    }
+  }));
+  busy = false; render();
+  const failed = items.filter((i) => i.status === "fail").length;
+  if (failed) { msg.className = "msg err"; msg.textContent = `${failed} photo${failed === 1 ? "" : "s"} didn't upload. Check your connection and tap “Retry failed”.`; }
+  else { msg.textContent = `All done — thank you, ${name}! ♡ Feel free to add more.`; }
+};
+
+async function uploadOne(file, name) {
+  const { blob, width, height } = await compress(file);
+  const res = await fetch(`${WORKER_URL}/upload`, {
+    method: "POST",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify({ name, filename: file.name, mimeType: "image/jpeg", width, height, data: await toBase64(blob) }),
+  });
+  const out = await res.json().catch(() => ({}));
+  if (!res.ok || !out.ok) throw new Error(out.error || `HTTP ${res.status}`);
+}
+
+// Downscale to MAX_EDGE and re-encode as JPEG so each photo is ~0.5–1.5 MB.
+async function compress(file) {
+  const img = await loadImage(file);
+  const w0 = img.naturalWidth || img.width, h0 = img.naturalHeight || img.height;
+  const scale = Math.min(1, MAX_EDGE / Math.max(w0, h0));
+  const width = Math.round(w0 * scale), height = Math.round(h0 * scale);
+  const canvas = document.createElement("canvas");
+  canvas.width = width; canvas.height = height;
+  canvas.getContext("2d").drawImage(img, 0, 0, width, height);
+  const blob = await new Promise((r) => canvas.toBlob(r, "image/jpeg", QUALITY));
+  if (!blob) throw new Error("could not encode image");
+  return { blob, width, height };
+}
+
+function loadImage(file) {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    img.onload = () => resolve(img); // <img> applies EXIF orientation
+    img.onerror = () => reject(new Error(`can't read ${file.name}`));
+    img.src = URL.createObjectURL(file);
+  });
+}
+
+function toBase64(blob) {
+  return new Promise((resolve, reject) => {
+    const r = new FileReader();
+    r.onload = () => resolve(r.result.slice(r.result.indexOf(",") + 1));
+    r.onerror = reject;
+    r.readAsDataURL(blob);
+  });
+}
+</script>
+</body>
+</html>
