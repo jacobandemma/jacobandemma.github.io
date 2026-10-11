@@ -25,7 +25,6 @@
   .tile.done .st { background:rgba(125,139,106,.55); }
   .tile.fail .st { background:rgba(181,82,59,.7); font-size:.8rem; padding:4px; }
   .tile.queued .st { background:rgba(255,255,255,.35); }
-  label { display:block; text-align:left; font-weight:600; margin-bottom:6px; }
   input[type=text] { width:100%; padding:14px; font:inherit; border:1px solid var(--line); border-radius:12px; background:#fff; margin-bottom:16px; }
   input[type=text]:focus { outline:2px solid var(--accent); border-color:transparent; }
   .count { color:var(--muted); margin:0 0 12px; }
@@ -51,8 +50,7 @@
     <p class="count" id="count"></p>
     <div class="grid" id="grid"></div>
     <form id="form">
-      <label for="name">Your name</label>
-      <input type="text" id="name" autocomplete="name" placeholder="e.g. Aunt Linda" required maxlength="100">
+      <input type="text" id="name" autocomplete="name" placeholder="Your name" aria-label="Your name" required maxlength="100">
       <div class="bar" id="bar" hidden><div></div></div>
       <button class="btn" id="uploadBtn" type="submit">Upload</button>
       <button class="btn ghost" id="addBtn" type="button">Add more photos</button>
@@ -62,7 +60,9 @@
 </main>
 
 <script>
-const WORKER_URL = new URLSearchParams(location.search).get("api") || "https://wedding-photos.jacobwestra0.workers.dev";
+const params = new URLSearchParams(location.search);
+const WORKER_URL = params.get("api") || "https://wedding-photos.jacobwestra0.workers.dev";
+const TABLE = (params.get("t") || "").slice(0, 20); // from the table tent QR/URL
 const MAX_EDGE = 2560;     // px on the long side
 const QUALITY = 0.85;      // JPEG quality
 const CONCURRENCY = 3;
@@ -138,7 +138,7 @@ async function uploadOne(file, name) {
   const res = await fetch(`${WORKER_URL}/upload`, {
     method: "POST",
     headers: { "content-type": "application/json" },
-    body: JSON.stringify({ name, filename: file.name, mimeType: "image/jpeg", width, height, data: await toBase64(blob) }),
+    body: JSON.stringify({ name, table: TABLE, filename: file.name, mimeType: "image/jpeg", width, height, data: await toBase64(blob) }),
   });
   const out = await res.json().catch(() => ({}));
   if (!res.ok || !out.ok) throw new Error(out.error || `HTTP ${res.status}`);
