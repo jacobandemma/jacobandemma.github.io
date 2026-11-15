@@ -1,11 +1,719 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta http-equiv="refresh" content="0; url=https://www.theknot.com/us/jacob-westra-and-emma-hacker-oct-2026">
-  <title>Jacob Westra & Emma Hacker</title>
-  <script>
-    window.location.replace("https://www.theknot.com/us/jacob-westra-and-emma-hacker-oct-2026");
-  </script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Jacob &amp; Emma · 10.11.26</title>
+<meta name="description" content="Thank you from Jacob & Emma — photos and the crypto-puzzle answer from our wedding, October 11, 2026.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+Antique:wght@400&family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #363536;
+    --ink-soft: #6b696b;
+    --rule: #d9d7d4;
+    --bg: #ffffff;
+    --panel: #f7f6f4;
+    --sage: #6f8a63;
+    --display: "Zen Kaku Gothic Antique", "Helvetica Neue", Arial, sans-serif;
+    --serif: "EB Garamond", Garamond, Georgia, serif;
+    --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--serif);
+    font-size: 19px;
+    line-height: 1.65;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+  img { display: block; max-width: 100%; height: auto; }
+  [hidden] { display: none !important; }
+
+  /* ---------- Header ---------- */
+  header {
+    position: relative;
+    text-align: center;
+    padding: clamp(200px, 26vw, 330px) 16px 0;
+  }
+  .branch { position: absolute; pointer-events: none; user-select: none; }
+  .branch-top { top: 18px; right: clamp(-40px, 1vw, 20px); width: clamp(240px, 40vw, 560px); }
+  h1 {
+    margin: 0;
+    font-family: var(--display);
+    font-weight: 400;
+    font-size: clamp(34px, 6.4vw, 58px);
+    letter-spacing: clamp(4px, 0.9vw, 8px);
+    text-transform: uppercase;
+    line-height: 1.15;
+    position: relative;
+  }
+  .subtitle { margin: 14px 0 0; font-size: 21px; letter-spacing: 4px; position: relative; }
+
+  nav { display: flex; justify-content: center; gap: clamp(14px, 3vw, 30px); margin: 46px 0 0; flex-wrap: wrap; }
+  nav a {
+    font-weight: 500;
+    font-size: 17px;
+    letter-spacing: 2px;
+    color: var(--ink);
+    text-decoration: none;
+    padding: 4px 8px 6px;
+    border-bottom: 2px solid transparent;
+    transition: border-color .25s;
+  }
+  nav a:hover { border-bottom-color: var(--rule); }
+  nav a[aria-current="page"] { border-bottom-color: var(--ink); }
+  nav a:focus-visible { outline: 2px solid var(--sage); outline-offset: 2px; }
+
+  main { padding: 64px 16px 40px; }
+
+  /* ---------- Thanks + Photos (shared hero) ---------- */
+  .story { max-width: 980px; margin: 0 auto; }
+  .hero { width: min(420px, 100%); margin: 0 auto; cursor: zoom-in; }
+  .hero img { width: 100%; aspect-ratio: 1067 / 1600; filter: grayscale(1) contrast(1.05); transition: filter 1.4s ease; }
+  body[data-tab="photos"] .hero img { filter: grayscale(0) contrast(1); }
+
+  .thanks {
+    max-width: 620px;
+    margin: 0 auto;
+    padding-top: 48px;
+    text-align: left;
+    transition: opacity .45s ease, transform .45s ease;
+  }
+  .thanks p { margin: 0 0 22px; }
+  .signature { width: min(230px, 55%); margin: 30px 0 0 auto; }
+  .leaving .thanks { opacity: 0; transform: translateY(14px); }
+
+  .gallery { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 10px; perspective: 1600px; }
+  .gallery::after { content: ""; flex-grow: 999; }
+  .gallery figure { margin: 0; cursor: zoom-in; background: #f2f1ef; transform-origin: 50% 0; }
+  .gallery img { width: 100%; height: 100%; object-fit: cover; }
+  .swing { animation: swing-in .9s cubic-bezier(.2, .9, .25, 1.15) both; animation-delay: calc(var(--i) * 75ms); }
+  @keyframes swing-in {
+    0%   { opacity: 0; transform: rotateX(-88deg) translateY(-20px); }
+    55%  { opacity: 1; }
+    100% { opacity: 1; transform: rotateX(0) translateY(0); }
+  }
+
+  /* ---------- Puzzle ---------- */
+  .puzzle {
+    position: relative;
+    max-width: 1360px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.65fr);
+    column-gap: clamp(60px, 7vw, 100px);
+    align-items: start;
+  }
+  .answers {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(260px, 300px);
+    column-gap: 18px;
+    row-gap: 18px;
+  }
+  .answers .clue, .answers .closing { grid-column: 1; }
+  .answers .tool { grid-column: 2; }
+  .board { position: relative; }
+  /* tools */
+  .tool { background: var(--panel); border: 1px solid #ebe9e5; padding: 14px 16px 16px; }
+  .tool h3 {
+    margin: 0 0 10px;
+    font-family: var(--display);
+    font-weight: 400;
+    font-size: 13px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+  }
+  .tool label { display: block; font-size: 15px; font-style: italic; color: var(--ink-soft); margin: 8px 0 3px; }
+  .tool input, .tool select, .tool textarea {
+    width: 100%;
+    font: 13px/1.4 var(--mono);
+    color: var(--ink);
+    background: #fff;
+    border: 1px solid #dcd9d4;
+    border-radius: 0;
+    padding: 6px 7px;
+  }
+  .tool textarea { resize: vertical; min-height: 58px; word-break: break-all; }
+  .tool input:focus, .tool select:focus, .tool textarea:focus { outline: 2px solid var(--sage); outline-offset: -1px; border-color: var(--sage); }
+  .row { display: grid; grid-template-columns: minmax(0, 1fr); }
+  .row > div, .tool input { min-width: 0; }
+  .out {
+    font: 13px/1.45 var(--mono);
+    background: #fff;
+    border: 1px dashed #cfccc6;
+    padding: 6px 8px;
+    min-height: 2.2em;
+    word-break: break-all;
+    user-select: all;
+  }
+  .out.err { color: #a0423a; font-family: var(--serif); font-style: italic; font-size: 15px; user-select: auto; }
+  .tabs { display: flex; gap: 2px; margin: 10px 0 0; }
+  .tabs button {
+    font: 500 15px var(--serif);
+    letter-spacing: 1px;
+    color: var(--ink-soft);
+    background: none;
+    border: 0;
+    border-bottom: 2px solid transparent;
+    padding: 2px 10px 3px;
+    cursor: pointer;
+  }
+  .tabs button[aria-selected="true"] { color: var(--ink); border-bottom-color: var(--ink); }
+  .tabs + .out { margin-top: 4px; }
+
+  /* board */
+  .board img { width: 100%; }
+  .board svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+  .region { transition: opacity .25s; }
+  .board.focus .region { opacity: .25; }
+  .board.focus .region.active { opacity: 1; }
+
+  /* clues */
+  .clue {
+    padding: 14px 18px 14px 18px;
+    border-left: 3px solid var(--c);
+    background: color-mix(in srgb, var(--c) 7%, white);
+    transition: background .2s;
+  }
+  .clue:hover, .clue.active { background: color-mix(in srgb, var(--c) 15%, white); }
+  .clue h3 {
+    margin: 0 0 6px;
+    font: 500 15px/1.4 var(--mono);
+    letter-spacing: .5px;
+    color: var(--c);
+    word-break: break-all;
+  }
+  .clue p { margin: 0 0 8px; font-size: 17.5px; line-height: 1.5; }
+  .clue p:last-child { margin-bottom: 0; }
+  .closing { padding: 6px 4px 0 21px; }
+  .closing p { margin: 0 0 8px; font-size: 17.5px; line-height: 1.5; }
+
+  .leaders { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; overflow: visible; }
+  .leaders path { fill: none; stroke-width: 1.5; transition: stroke-width .2s; }
+  .leaders g { transition: opacity .2s; }
+  .leaders.focus g { opacity: .2; }
+  .leaders.focus g.active { opacity: 1; }
+  .leaders.focus g.active path { stroke-width: 2.5; }
+
+  .clue .box {
+    display: block;
+    margin: 4px 0 10px;
+    padding: 7px 10px;
+    font: 13px/1.45 var(--mono);
+    word-break: break-all;
+    background: color-mix(in srgb, var(--c) 16%, white);
+    border: 1px solid var(--c);
+    border-radius: 8px;
+    color: var(--ink);
+  }
+  .clue .box:last-child { margin-bottom: 0; }
+
+  /* medium: clue followed by its tool, stacked beside the board */
+  @media (max-width: 1180px) {
+    .puzzle { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); column-gap: 64px; }
+    .answers { grid-template-columns: 1fr; }
+    .answers > * { grid-row: auto !important; grid-column: 1 !important; }
+    .answers .tool { margin-top: -8px; }
+  }
+  /* small: everything stacks, leader lines hidden */
+  @media (max-width: 760px) {
+    .puzzle { grid-template-columns: 1fr; row-gap: 32px; }
+    .leaders { display: none; }
+    .tool input, .tool select, .tool textarea { font-size: 16px; } /* prevents iOS zoom on focus */
+    .clue h3 { font-size: 14px; }
+    .clue p, .closing p { font-size: 17px; }
+    .closing { padding-left: 4px; }
+  }
+
+  /* ---------- Tabs ---------- */
+  .panel-enter { animation: fade-up .55s ease both; }
+  @keyframes fade-up { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+
+  /* ---------- Lightbox ---------- */
+  dialog.lightbox {
+    border: 0; padding: 0;
+    max-width: 100vw; max-height: 100vh; width: 100vw; height: 100vh;
+    background: rgba(20, 20, 20, .94);
+  }
+  dialog.lightbox::backdrop { background: transparent; }
+  .lightbox img {
+    position: absolute; inset: 0; margin: auto;
+    max-width: calc(100vw - 32px); max-height: calc(100vh - 32px);
+    object-fit: contain;
+  }
+  .lightbox button {
+    position: absolute; background: none; border: 0; color: #fff;
+    font: 300 40px/1 var(--display); cursor: pointer; padding: 14px 18px; opacity: .75;
+  }
+  .lightbox button:hover { opacity: 1; }
+  .lb-close { top: 6px; right: 8px; }
+  .lb-prev { left: 4px; top: 50%; transform: translateY(-50%); }
+  .lb-next { right: 4px; top: 50%; transform: translateY(-50%); }
+
+  /* ---------- Footer ---------- */
+  footer { position: relative; height: clamp(180px, 22vw, 300px); margin-top: 40px; }
+  .branch-bottom { left: clamp(-30px, 1vw, 20px); bottom: 10px; width: clamp(220px, 36vw, 480px); }
+
+  @media (prefers-reduced-motion: reduce) {
+    .swing, .panel-enter { animation: none; }
+    .hero img, .thanks { transition: none; }
+  }
+</style>
 </head>
+<body data-tab="thanks">
+
+<header>
+  <img class="branch branch-top" src="assets/branch-top.png" alt="">
+  <h1>Jacob &amp; Emma</h1>
+  <p class="subtitle">10.11.26</p>
+  <nav aria-label="Sections">
+    <a href="#thanks" data-tab-link="thanks">Thanks</a>
+    <a href="#photos" data-tab-link="photos">Photos</a>
+    <a href="#puzzle" data-tab-link="puzzle">Puzzle Answer</a>
+  </nav>
+</header>
+
+<main>
+  <!-- Thanks & Photos share the hero photo so the gallery can swing in beneath it -->
+  <section class="story" data-panel="story">
+    <figure class="hero" style="margin:0 auto" data-index="0">
+      <img src="assets/photos/first.jpg" width="1067" height="1600" alt="Jacob and Emma's first kiss under the wooden pavilion">
+    </figure>
+
+    <div class="thanks" id="thanks-text">
+      <p>Thanks to everyone who made this day as spectacular as it was. It was a wonderful evening, with wonderful weather, and even more wonderful people. We can't express our gratitude for those who traveled far or near to be with us. Whether you came from Michigan, Indiana, Florida, or Washington, we are so grateful you were able to join us.</p>
+      <p>Similarly, we can't express our gratitude for your gifts and well-wishes. Your generosity and thoughtfulness mean the world to us, and we will cherish your contributions as we start our new life together.</p>
+      <p>Thanks to all who made this possible, especially our families &amp; friends who helped us set up &amp; coordinate.</p>
+      <img class="signature" src="assets/signature.png" alt="Handwritten: Thanks, Jacob & Emma">
+    </div>
+
+    <div class="gallery" id="gallery" hidden></div>
+  </section>
+
+  <section data-panel="puzzle" hidden>
+    <div class="puzzle" id="puzzle">
+
+
+      <div class="board" id="board">
+        <img src="assets/puzzle.jpg" width="1342" height="1400" alt="The hand-drawn 10 by 10 grid of puzzle characters">
+        <svg id="board-svg" viewBox="0 0 1342 1400" preserveAspectRatio="none" aria-hidden="true"></svg>
+      </div>
+
+      <div class="answers">
+        <article class="clue" data-region="1" style="--c:#5f7d55; grid-row: 1">
+          <h3>38762cf7f55934b34d179ae6a4c80cadccbb7f0a</h3>
+          <p>This is the hash from the first-ever discovered SHA-1 collision.</p>
+        </article>
+
+        <article class="clue" data-region="2" style="--c:#a0743f; grid-row: 2">
+          <h3>ISO8601</h3>
+          <p>Time &amp; date format. Our ceremony started on 10/11/26 at 3&nbsp;PM EST.</p>
+        </article>
+        <div class="tool" data-tool="iso" style="grid-row: 2">
+          <h3>ISO 8601</h3>
+          <div class="row">
+            <div><label for="iso-date">Date</label><input id="iso-date" type="date" value="2026-10-11"></div>
+            <div><label for="iso-time">Time</label><input id="iso-time" type="time" step="1" value="15:00:00"></div>
+          </div>
+          <label for="iso-tz">Time zone</label>
+          <select id="iso-tz">
+            <option value="America/New_York" selected>Eastern (America/New_York)</option>
+            <option value="America/Chicago">Central (America/Chicago)</option>
+            <option value="America/Denver">Mountain (America/Denver)</option>
+            <option value="America/Los_Angeles">Pacific (America/Los_Angeles)</option>
+            <option value="UTC">UTC</option>
+          </select>
+          <label>ISO 8601 (UTC)</label>
+          <div class="out" id="iso-out"></div>
+        </div>
+
+        <article class="clue" data-region="3" style="--c:#8a5a78; grid-row: 3">
+          <h3>+ejhjbw</h3>
+          <p>Our full names, Emma Joy Hacker and Jacob Benjamin Westra. Concatenate with the timestamp.</p>
+          <code class="box">2026-10-11T19:00:00.000Zemmajoyhackerjacobbenjaminwestra</code>
+          <p>When hashed via SHA-1, you get this:</p>
+          <code class="box">c39eef995cf31504b065de9781a4f2a0386a87b4</code>
+        </article>
+        <div class="tool" data-tool="sha" style="grid-row: 3">
+          <h3>SHA-1</h3>
+          <label for="sha-in">Input text</label>
+          <textarea id="sha-in" rows="3" spellcheck="false">2026-10-11T19:00:00.000Zemmajoyhackerjacobbenjaminwestra</textarea>
+          <label>SHA-1 (hex)</label>
+          <div class="out" id="sha-out"></div>
+        </div>
+
+        <article class="clue" data-region="4" style="--c:#4f7591; grid-row: 4">
+          <h3>⊕a9fb9fec26897961c017b7ede4e481d45944f3d7</h3>
+          <p>The XOR symbol, plus a bitmask of similar length. When applied bitwise, you get this:</p>
+          <code class="box">6a6570757a7a6c657072697a65407374612e7463</code>
+        </article>
+        <div class="tool" data-tool="xor" style="grid-row: 4">
+          <h3>XOR Bitmask</h3>
+          <label for="xor-a">Value (hex)</label>
+          <textarea id="xor-a" rows="2" spellcheck="false">c39eef995cf31504b065de9781a4f2a0386a87b4</textarea>
+          <label for="xor-b">Bitmask (hex)</label>
+          <textarea id="xor-b" rows="2" spellcheck="false">a9fb9fec26897961c017b7ede4e481d45944f3d7</textarea>
+          <div class="tabs" role="tablist" aria-label="Output format">
+            <button type="button" role="tab" aria-selected="false" data-fmt="hex">Hex</button>
+            <button type="button" role="tab" aria-selected="true" data-fmt="ascii">ASCII</button>
+          </div>
+          <div class="out" id="xor-out" role="tabpanel"></div>
+        </div>
+
+        <article class="clue" data-region="5" style="--c:#b0544a; grid-row: 5">
+          <h3>ASCII</h3>
+          <p>Finally, convert the result to ASCII, and you get an email address tied to a domain I own:</p>
+          <code class="box">jepuzzleprize@sta.tc</code>
+        </article>
+
+        <div class="closing" style="grid-row: 6">
+          <p>Had you sent an email to this address to claim your prize, you would've been the winner of a $15 Starbucks gift card! Thankfully nobody did, so it's all ours!</p>
+        </div>
+      </div>
+
+      <svg class="leaders" id="leaders" aria-hidden="true"></svg>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <img class="branch branch-bottom" src="assets/branch-bottom.png" alt="">
+</footer>
+
+<dialog class="lightbox" id="lightbox" aria-label="Photo viewer">
+  <img id="lb-img" alt="">
+  <button class="lb-close" type="button" aria-label="Close">×</button>
+  <button class="lb-prev" type="button" aria-label="Previous photo">‹</button>
+  <button class="lb-next" type="button" aria-label="Next photo">›</button>
+</dialog>
+
+<script>
+(() => {
+  // ---------- Photos ----------
+  const P = 1067 / 1600, L = 1600 / 1067;
+  const photos = [
+    { f: 'first',       ar: P, alt: "Jacob and Emma's first kiss under the wooden pavilion" },
+    // ceremony
+    { f: 'IMG_7238',    ar: L, alt: 'Guests watching the ceremony at the red pavilion' },
+    { f: 'IMG_7232',    ar: L, alt: 'Emma and Jacob smiling at each other in the garden' },
+    { f: 'IMG_7240',    ar: L, alt: 'Emma and Jacob walking out after the ceremony' },
+    { f: 'IMG_7236',    ar: P, alt: 'Emma and Jacob standing together on the lawn' },
+    { f: 'IMG_7235',    ar: P, alt: 'Jacob signing the marriage license as Emma looks on' },
+    { f: 'IMG_7242',    ar: P, alt: 'Emma and Jacob seated together on the porch' },
+    // reception
+    { f: 'IMG_7244',    ar: L, alt: 'A toast by the stone fireplace' },
+    { f: 'IMG_7245',    ar: L, alt: 'Guests gathered around a dinner table' },
+    { f: 'IMG_7246',    ar: L, alt: 'The reception hall seen past the flowers' },
+    { f: 'IMG_7247',    ar: L, alt: 'Cutting the wedding cake' },
+    { f: 'IMG_7248',    ar: L, alt: 'Guests at dinner by the open garage doors' },
+    { f: 'IMG_7254',    ar: L, alt: 'A full reception hall under string lights' },
+    { f: 'IMG_7260',    ar: L, alt: 'Table settings beneath an Edison bulb' },
+    { f: 'IMG_7261',    ar: L, alt: 'Guests serving themselves at the buffet' },
+    { f: 'IMG_7262',    ar: L, alt: 'The whole crowd in the reception hall' },
+    { f: '3rd-to-last', ar: L, alt: 'The wedding rings in a velvet box among red berries' },
+    { f: '2nd-to-last', ar: L, alt: 'The venue at dusk across the pond and fountain' },
+    { f: 'last',        ar: L, alt: 'A pair of ceramic frogs in front of the cake' },
+  ];
+  const src = p => `assets/photos/${p.f}.jpg`;
+
+  const gallery = document.getElementById('gallery');
+  photos.forEach((p, i) => {
+    if (i === 0) return; // first.jpeg is the hero
+    const fig = document.createElement('figure');
+    fig.dataset.index = i;
+    fig.style.flex = `${p.ar} 1 ${Math.round(p.ar * 230)}px`;
+    fig.style.aspectRatio = p.ar;
+    const img = document.createElement('img');
+    img.src = src(p); img.alt = p.alt; img.loading = 'lazy'; img.decoding = 'async';
+    fig.append(img);
+    gallery.append(fig);
+  });
+
+  function swingGallery() {
+    [...gallery.children].forEach((el, n) => {
+      el.classList.remove('swing');
+      void el.offsetWidth;
+      el.style.setProperty('--i', n);
+      el.classList.add('swing');
+    });
+  }
+
+  // ---------- Tabs ----------
+  const story = document.querySelector('[data-panel="story"]');
+  const puzzlePanel = document.querySelector('[data-panel="puzzle"]');
+  const thanksText = document.getElementById('thanks-text');
+  const links = document.querySelectorAll('[data-tab-link]');
+  let current = null;
+  const replay = (el, cls) => { el.classList.remove(cls); void el.offsetWidth; el.classList.add(cls); };
+
+  function show(tab, animate = true) {
+    if (!['thanks', 'photos', 'puzzle'].includes(tab)) tab = 'thanks';
+    if (tab === current) return;
+    const prev = current;
+    current = tab;
+    document.body.dataset.tab = tab;
+    links.forEach(a => { if (a.dataset.tabLink === tab) a.setAttribute('aria-current', 'page'); else a.removeAttribute('aria-current'); });
+
+    if (tab === 'puzzle') {
+      story.hidden = true;
+      puzzlePanel.hidden = false;
+      if (animate) replay(puzzlePanel, 'panel-enter');
+      requestAnimationFrame(drawLeaders);
+      return;
+    }
+
+    puzzlePanel.hidden = true;
+    const wasHidden = story.hidden;
+    story.hidden = false;
+
+    if (tab === 'photos') {
+      const showGallery = () => {
+        thanksText.hidden = true;
+        story.classList.remove('leaving');
+        gallery.hidden = false;
+        if (animate) swingGallery();
+      };
+      if (prev === 'thanks' && animate) {
+        story.classList.add('leaving');
+        setTimeout(showGallery, 420);
+      } else {
+        if (wasHidden && animate) replay(story, 'panel-enter');
+        showGallery();
+      }
+    } else {
+      gallery.hidden = true;
+      story.classList.remove('leaving');
+      thanksText.hidden = false;
+      if (animate) replay(thanksText, 'panel-enter');
+    }
+  }
+
+  window.addEventListener('hashchange', () => show(location.hash.slice(1)));
+  show(location.hash.slice(1) || 'thanks', false);
+  if (current === 'photos') swingGallery();
+
+  // ---------- Lightbox ----------
+  const lb = document.getElementById('lightbox');
+  const lbImg = document.getElementById('lb-img');
+  let lbIndex = 0;
+  function openLb(i) {
+    lbIndex = (i + photos.length) % photos.length;
+    lbImg.src = src(photos[lbIndex]);
+    lbImg.alt = photos[lbIndex].alt;
+    if (!lb.open) lb.showModal();
+  }
+  story.addEventListener('click', e => {
+    const fig = e.target.closest('figure[data-index]');
+    if (fig) openLb(+fig.dataset.index);
+  });
+  lb.querySelector('.lb-close').onclick = () => lb.close();
+  lb.querySelector('.lb-prev').onclick = () => openLb(lbIndex - 1);
+  lb.querySelector('.lb-next').onclick = () => openLb(lbIndex + 1);
+  lb.addEventListener('click', e => { if (e.target === lb) lb.close(); });
+  lb.addEventListener('keydown', e => {
+    if (e.key === 'ArrowLeft') openLb(lbIndex - 1);
+    if (e.key === 'ArrowRight') openLb(lbIndex + 1);
+  });
+
+  // ---------- Tools ----------
+  // SHA-1 (pure JS so it works without a secure context)
+  function sha1(str) {
+    const bytes = new TextEncoder().encode(str);
+    const bitLen = bytes.length * 8;
+    const len = ((bytes.length + 9 + 63) >> 6) << 6;
+    const buf = new Uint8Array(len);
+    buf.set(bytes);
+    buf[bytes.length] = 0x80;
+    const dv = new DataView(buf.buffer);
+    dv.setUint32(len - 8, Math.floor(bitLen / 2 ** 32));
+    dv.setUint32(len - 4, bitLen >>> 0);
+    let h0 = 0x67452301, h1 = 0xEFCDAB89, h2 = 0x98BADCFE, h3 = 0x10325476, h4 = 0xC3D2E1F0;
+    const w = new Uint32Array(80);
+    const rotl = (x, n) => (x << n) | (x >>> (32 - n));
+    for (let off = 0; off < len; off += 64) {
+      for (let i = 0; i < 16; i++) w[i] = dv.getUint32(off + i * 4);
+      for (let i = 16; i < 80; i++) w[i] = rotl(w[i - 3] ^ w[i - 8] ^ w[i - 14] ^ w[i - 16], 1);
+      let a = h0, b = h1, c = h2, d = h3, e = h4;
+      for (let i = 0; i < 80; i++) {
+        let f, k;
+        if (i < 20)      { f = (b & c) | (~b & d);          k = 0x5A827999; }
+        else if (i < 40) { f = b ^ c ^ d;                   k = 0x6ED9EBA1; }
+        else if (i < 60) { f = (b & c) | (b & d) | (c & d); k = 0x8F1BBCDC; }
+        else             { f = b ^ c ^ d;                   k = 0xCA62C1D6; }
+        const t = (rotl(a, 5) + f + e + k + w[i]) >>> 0;
+        e = d; d = c; c = rotl(b, 30) >>> 0; b = a; a = t;
+      }
+      h0 = (h0 + a) >>> 0; h1 = (h1 + b) >>> 0; h2 = (h2 + c) >>> 0; h3 = (h3 + d) >>> 0; h4 = (h4 + e) >>> 0;
+    }
+    return [h0, h1, h2, h3, h4].map(h => h.toString(16).padStart(8, '0')).join('');
+  }
+
+  // ISO 8601: wall-clock time in a zone -> UTC ISO string
+  function tzOffsetMs(utcMs, tz) {
+    const parts = new Intl.DateTimeFormat('en-US', {
+      timeZone: tz, hourCycle: 'h23',
+      year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit',
+    }).formatToParts(new Date(utcMs));
+    const v = Object.fromEntries(parts.map(p => [p.type, +p.value]));
+    return Date.UTC(v.year, v.month - 1, v.day, v.hour, v.minute, v.second) - Math.floor(utcMs / 1000) * 1000;
+  }
+  const isoDate = document.getElementById('iso-date');
+  const isoTime = document.getElementById('iso-time');
+  const isoTz = document.getElementById('iso-tz');
+  const isoOut = document.getElementById('iso-out');
+  function updateIso() {
+    const [y, mo, d] = isoDate.value.split('-').map(Number);
+    const [h = 0, mi = 0, s = 0] = (isoTime.value || '').split(':').map(Number);
+    if (!y || !mo || !d) { isoOut.textContent = 'Enter a date'; isoOut.classList.add('err'); return; }
+    const wall = Date.UTC(y, mo - 1, d, h, mi, s);
+    let utc = wall - tzOffsetMs(wall, isoTz.value);
+    utc = wall - tzOffsetMs(utc, isoTz.value); // settle across DST edges
+    isoOut.classList.remove('err');
+    isoOut.textContent = new Date(utc).toISOString();
+  }
+  [isoDate, isoTime, isoTz].forEach(el => el.addEventListener('input', updateIso));
+  updateIso();
+
+  const shaIn = document.getElementById('sha-in');
+  const shaOut = document.getElementById('sha-out');
+  const updateSha = () => { shaOut.textContent = sha1(shaIn.value); };
+  shaIn.addEventListener('input', updateSha);
+  updateSha();
+
+  const xa = document.getElementById('xor-a');
+  const xb = document.getElementById('xor-b');
+  const xOut = document.getElementById('xor-out');
+  const fmtBtns = document.querySelectorAll('.tabs [data-fmt]');
+  let fmt = 'ascii';
+  const parseHex = s => {
+    const h = s.replace(/^0x/i, '').replace(/\s+/g, '');
+    if (!/^[0-9a-f]*$/i.test(h)) return { err: 'Hex values may only contain 0–9 and a–f.' };
+    if (h.length % 2) return { err: 'Hex values need an even number of digits.' };
+    return { bytes: h.match(/../g)?.map(x => parseInt(x, 16)) ?? [] };
+  };
+  function updateXor() {
+    const a = parseHex(xa.value), b = parseHex(xb.value);
+    const err = a.err || b.err || (a.bytes.length !== b.bytes.length && `Lengths differ: ${a.bytes.length} vs ${b.bytes.length} bytes.`);
+    xOut.classList.toggle('err', !!err);
+    if (err) { xOut.textContent = err; return; }
+    const r = a.bytes.map((x, i) => x ^ b.bytes[i]);
+    xOut.textContent = fmt === 'hex'
+      ? r.map(x => x.toString(16).padStart(2, '0')).join('')
+      : r.map(x => (x >= 32 && x < 127) ? String.fromCharCode(x) : `\\x${x.toString(16).padStart(2, '0')}`).join('');
+  }
+  fmtBtns.forEach(btn => btn.addEventListener('click', () => {
+    fmt = btn.dataset.fmt;
+    fmtBtns.forEach(b => b.setAttribute('aria-selected', b === btn));
+    updateXor();
+  }));
+  [xa, xb].forEach(el => el.addEventListener('input', updateXor));
+  updateXor();
+
+  // ---------- Puzzle board highlights ----------
+  const W = 1342, H = 1400;
+  const gx0 = W * 0.004, gx1 = W * 0.988, gy0 = H * 0.018, gy1 = H * 0.984;
+  const cw = (gx1 - gx0) / 10, ch = (gy1 - gy0) / 10;
+  const X = c => gx0 + c * cw, Y = r => gy0 + r * ch;
+  const INSET = 9;
+
+  // Text-selection shaped outline from (r0,c0) through (r1,c1) inclusive
+  function selectionPath(r0, c0, r1, c1, i = INSET) {
+    if (r0 === r1) return `M${X(c0) + i},${Y(r0) + i}H${X(c1 + 1) - i}V${Y(r0 + 1) - i}H${X(c0) + i}Z`;
+    const pts = [
+      [X(c0) + i, Y(r0) + i], [X(10) - i, Y(r0) + i],
+      ...(c1 === 9 ? [[X(10) - i, Y(r1 + 1) - i]] : [[X(10) - i, Y(r1) - i], [X(c1 + 1) - i, Y(r1) - i], [X(c1 + 1) - i, Y(r1 + 1) - i]]),
+      [X(0) + i, Y(r1 + 1) - i],
+      ...(c0 === 0 ? [] : [[X(0) + i, Y(r0 + 1) + i], [X(c0) + i, Y(r0 + 1) + i]]),
+    ];
+    return 'M' + pts.map(p => p.map(n => n.toFixed(1)).join(',')).join('L') + 'Z';
+  }
+
+  // route: board-space points; the first is the dot on the region, the last exits past the grid's right edge
+  const EXIT = X(10) + 6;
+  const regions = [
+    { id: 1, c: '#5f7d55', from: [0, 0], to: [3, 9], route: [[X(10) - INSET, Y(1.5)], [EXIT, Y(1.5)]] },
+    // ISO8601 ends mid-row, so leave through the gutter above it
+    { id: 2, c: '#a0743f', from: [4, 0], to: [4, 6], route: [[X(6.5), Y(4) + INSET], [X(6.5), Y(4)], [EXIT, Y(4)]] },
+    { id: 3, c: '#8a5a78', from: [4, 7], to: [5, 3], route: [[X(10) - INSET, Y(4.5)], [EXIT, Y(4.5)]] },
+    { id: 4, c: '#4f7591', from: [5, 4], to: [9, 4], route: [[X(10) - INSET, Y(7)], [EXIT, Y(7)]] },
+    { id: 5, c: '#b0544a', from: [9, 5], to: [9, 9], route: [[X(10) - INSET, Y(9.5)], [EXIT, Y(9.5)]] },
+  ];
+  const NS = 'http://www.w3.org/2000/svg';
+  const boardSvg = document.getElementById('board-svg');
+  regions.forEach(r => {
+    const path = document.createElementNS(NS, 'path');
+    path.setAttribute('class', 'region');
+    path.setAttribute('d', selectionPath(...r.from, ...r.to));
+    path.setAttribute('fill', r.c);
+    path.setAttribute('fill-opacity', '.16');
+    path.setAttribute('stroke', r.c);
+    path.setAttribute('stroke-width', '5');
+    path.setAttribute('stroke-linejoin', 'round');
+    path.style.pointerEvents = 'all';
+    r.el = path;
+    boardSvg.append(path);
+  });
+
+  // ---------- Rigid leader lines: region -> clue ----------
+  const puzzleEl = document.getElementById('puzzle');
+  const leaders = document.getElementById('leaders');
+  const board = document.getElementById('board');
+  function drawLeaders() {
+    if (puzzlePanel.hidden) return;
+    leaders.innerHTML = '';
+    if (getComputedStyle(leaders).display === 'none') return;
+    const box = puzzleEl.getBoundingClientRect();
+    const bb = board.getBoundingClientRect();
+    const sx = bb.width / W, sy = bb.height / H;
+    const toPx = ([x, y]) => [bb.left - box.left + x * sx, bb.top - box.top + y * sy];
+    const firstClue = puzzleEl.querySelector('.clue').getBoundingClientRect();
+    const gapL = bb.left - box.left + EXIT * sx, gapR = firstClue.left - box.left;
+    regions.forEach((r, n) => {
+      const clue = puzzleEl.querySelector(`.clue[data-region="${r.id}"]`).getBoundingClientRect();
+      const pts = r.route.map(toPx);
+      const [ex, ey] = pts[pts.length - 1];
+      const cy = Math.min(clue.top - box.top + 22, clue.bottom - box.top - 10);
+      const cx = clue.left - box.left;
+      // stagger vertical runs so they never overlap
+      const vx = gapL + (gapR - gapL) * (0.25 + 0.12 * n);
+      const all = [...pts, [vx, ey], [vx, cy], [cx, cy]];
+      const d = 'M' + all.map(p => p.map(v => v.toFixed(1)).join(',')).join('L');
+      const g = document.createElementNS(NS, 'g');
+      g.dataset.region = r.id;
+      g.innerHTML =
+        `<path d="${d}" stroke="${r.c}" stroke-linejoin="miter"/>` +
+        `<circle cx="${pts[0][0]}" cy="${pts[0][1]}" r="4" fill="#fff" stroke="${r.c}" stroke-width="2"/>` +
+        `<circle cx="${cx}" cy="${cy}" r="3" fill="${r.c}"/>`;
+      leaders.append(g);
+    });
+  }
+  window.addEventListener('resize', drawLeaders);
+  document.fonts && document.fonts.ready.then(drawLeaders);
+  board.querySelector('img').addEventListener('load', drawLeaders);
+  new ResizeObserver(drawLeaders).observe(puzzleEl);
+
+  // Hover a clue (or a region) to spotlight it
+  function focusRegion(id) {
+    board.classList.toggle('focus', !!id);
+    leaders.classList.toggle('focus', !!id);
+    regions.forEach(r => r.el.classList.toggle('active', r.id == id));
+    leaders.querySelectorAll('g').forEach(g => g.classList.toggle('active', g.dataset.region == id));
+    puzzleEl.querySelectorAll('.clue').forEach(s => s.classList.toggle('active', s.dataset.region == id));
+  }
+  puzzleEl.querySelectorAll('.clue').forEach(s => {
+    s.addEventListener('mouseenter', () => focusRegion(s.dataset.region));
+    s.addEventListener('mouseleave', () => focusRegion(null));
+  });
+  regions.forEach(r => {
+    r.el.addEventListener('mouseenter', () => focusRegion(r.id));
+    r.el.addEventListener('mouseleave', () => focusRegion(null));
+  });
+})();
+</script>
+</body>
 </html>
